@@ -1,0 +1,24 @@
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Dependency + build artifacts
+node_modules/
+__pycache__/
+*.pyc
+.coverage
+coverage.xml
+
+# Secrets
+.env
+.env.local
+
+# agentwaves: isolation worktrees created by `Agent(isolation: "worktree")`.
+# Session-close guardrail #6 requires this directory to be empty at close.
+.worktrees/
+
+# Superpowers skill output cache (transient, per-session)
+.superpowers/
