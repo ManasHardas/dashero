@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Upstream** | `git@github.com-personal:manashardas/agentwaves.git` |
-| **Vendored at commit** | `4a658d5` (`feat(protocol): clause #11 — adversarial ideation gate`) |
+| **Vendored at commit** | `8a42eb3` (`fix(scripts): resolve project root from script location`) |
 | **Originally vendored at** | `ff074c955d25d87a6a83e21c5f7ff5dfc8eafeef` (`clause #10 — throughput maximization`) |
 | **Vendored on** | 2026-08-24 |
 | **Method** | file copy (not a submodule) |
@@ -28,21 +28,23 @@ Trade-off accepted: upstream changes do not arrive automatically. To pull them, 
 | `.gitignore` | upstream's root ignore file; its entries were folded into this repo's root `.gitignore` |
 | `.DS_Store` | noise |
 
-Everything else is byte-identical to upstream except the local patch below.
+Everything else is byte-identical to upstream. **There are no local patches.**
 
-## Local patches
+## Local patches — none (resolved upstream 2026-08-24)
 
-### 1. Project-root resolution in `scripts/*.sh` (all three)
+This tree previously carried a local patch to three scripts. It has been fixed upstream and the
+local patch removed; all four scripts are now byte-identical to upstream and can be overwritten
+freely by a re-copy. Nothing needs re-applying after an update.
 
-**Problem.** All three scripts open with `cd "$(dirname "$0")/.."` and then reference
-`plans/**` — and, in the guardrails script, run git invariant checks — relative to
-that directory. This assumes the framework lives at the repo root. Under the
-`.orchestrator/` layout the upstream README itself recommends, `dirname $0/..`
-resolves to `.orchestrator/`, so every `plans/**` path misses and the git checks run
-against the wrong tree.
+**The bug, for the record.** `scripts/session-start.sh`, `scripts/session-close.sh`, and
+`scripts/check-session-close-guardrails.sh` opened with `cd "$(dirname "$0")/.."` and then resolved
+`plans/**` — and, in the guardrails script, the git invariant checks — relative to that directory.
+That assumes the framework lives at the repo root. Under the `.orchestrator/` layout upstream's own
+README §Adoption recommends, it resolves to `.orchestrator/`, so every `plans/**` path missed and
+the git checks ran against the wrong tree.
 
-**Fix.** Resolve the git toplevel from the script's own location, falling back to
-upstream behaviour outside a git repo:
+**The fix,** now upstream in all four scripts — resolve the git toplevel from the script's own
+location, falling back to the old behaviour outside a git repo:
 
 ```bash
 _SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -51,13 +53,16 @@ _ROOT="$(git -C "$_SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
 cd "$_ROOT"
 ```
 
-Correct in both layouts: at the repo root the toplevel equals `dirname $0/..`.
-Each patch is fenced with `--- LOCAL PATCH ---` / `--- END LOCAL PATCH ---` comments.
+Verified across three layouts: framework at a repo root, framework vendored under `.orchestrator/`
+in a git repo (including invoked from an unrelated cwd), and framework at the root of a directory
+that is not a git repo at all.
 
-Applied to `scripts/session-start.sh`, `scripts/session-close.sh`,
-`scripts/check-session-close-guardrails.sh`.
+**Known limit of the fallback.** A framework vendored into a subdirectory of a **non-git** directory
+still resolves to the framework directory rather than the project root — outside git there is no
+signal for where the project root is. This matches the pre-fix behaviour and affects no supported
+layout; `git init` resolves it.
 
-**Worth upstreaming.** This is an upstream bug, not a local preference.
+Landed upstream as `8a42eb3`. This tree matches it exactly.
 
 ## Clause #11 — authored here, upstreamed (2026-08-24)
 
@@ -77,11 +82,10 @@ Files added or changed between `ff074c9` and `4a658d5`:
 | `scripts/README.md` | enforcement-scripts section |
 | `README.md` | wave cadence, what's-in-the-box, key sub-documents |
 | `CLAUDE.md.snippet` | Wave -1 section |
-| `scripts/session-start.sh` | Wave -1 line in the printed checklist (applied by hand here — this
-file carries a local patch and is never overwritten by a copy) |
+| `scripts/session-start.sh` | Wave -1 line in the printed checklist |
 
-`scripts/check-ideation-gate.sh` was written with git-toplevel root resolution from the start, so
-unlike the three older scripts it needs **no local patch** and can be overwritten freely.
+`scripts/check-ideation-gate.sh` was written with git-toplevel root resolution from the start. The
+three older scripts have since been fixed the same way upstream, so all four are now overwrite-safe.
 
 ## Known upstream inconsistency (not patched)
 
@@ -128,12 +132,15 @@ once each and are easy to miss.
 ## Updating from upstream
 
 ```bash
-cd ~/Projects/agentwaves && git fetch origin && git log --oneline 4a658d5..origin/main
-# Review the diff, then re-copy and re-apply the local patch:
+cd ~/Projects/agentwaves && git fetch origin && git log --oneline 8a42eb3..origin/main
+# Review the diff, then re-copy. No patches to re-apply — the tree is a clean copy.
 rsync -a --exclude='.git/' --exclude='.DS_Store' --exclude='.github/' \
       ~/Projects/agentwaves/ .orchestrator/
+rm -f .orchestrator/.gitignore   # upstream's root ignore file; not wanted nested
+chmod +x .orchestrator/scripts/*.sh
 ```
 
-After re-copying: re-apply §Local patches (the `--- LOCAL PATCH ---` fences are gone
-after an overwrite), re-fill placeholders, and bump the commit recorded at the top of
-this file.
+After re-copying: re-fill placeholders (§Placeholder customization), re-run
+`.orchestrator/scripts/check-ideation-gate.sh` and
+`.orchestrator/scripts/check-session-close-guardrails.sh --no-gh` as a smoke test, and bump the
+commit recorded at the top of this file.

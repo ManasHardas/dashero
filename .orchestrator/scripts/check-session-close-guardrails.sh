@@ -25,16 +25,16 @@
 
 set -euo pipefail
 
-# --- LOCAL PATCH (vendored at .orchestrator/) — see .orchestrator/VENDOR.md ---
-# Upstream assumes the framework sits at the repo root, so `dirname $0/..` is the
-# project root. Vendored under .orchestrator/ it resolves to .orchestrator/ and
-# every plans/** path plus every git invariant below misses. Resolve the git
-# toplevel from the script's own location; fall back outside a git repo.
+# Resolve the project root from this script's own location, so the framework works
+# both at a repo root and vendored into a subdirectory (e.g. .orchestrator/, the
+# layout README.md §Adoption recommends). A plain `dirname "$0"/..` resolves to the
+# framework directory when vendored — every plans/** path below would miss, and the
+# git invariant checks would run against the wrong tree.
+# Falls back to the parent directory outside a git repo.
 _SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 _ROOT="$(git -C "$_SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
 [[ -n "$_ROOT" ]] || _ROOT="$(cd "$_SCRIPT_DIR/.." && pwd)"
 cd "$_ROOT"
-# --- END LOCAL PATCH ---------------------------------------------------------
 
 # ---------- args ----------
 SESSION=""
