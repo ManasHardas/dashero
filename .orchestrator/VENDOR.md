@@ -3,7 +3,8 @@
 | | |
 |---|---|
 | **Upstream** | `git@github.com-personal:manashardas/agentwaves.git` |
-| **Vendored at commit** | `ff074c955d25d87a6a83e21c5f7ff5dfc8eafeef` (`feat(protocol): clause #10 — throughput maximization`) |
+| **Vendored at commit** | `4a658d5` (`feat(protocol): clause #11 — adversarial ideation gate`) |
+| **Originally vendored at** | `ff074c955d25d87a6a83e21c5f7ff5dfc8eafeef` (`clause #10 — throughput maximization`) |
 | **Vendored on** | 2026-08-24 |
 | **Method** | file copy (not a submodule) |
 | **Local path** | `.orchestrator/` |
@@ -58,6 +59,30 @@ Applied to `scripts/session-start.sh`, `scripts/session-close.sh`,
 
 **Worth upstreaming.** This is an upstream bug, not a local preference.
 
+## Clause #11 — authored here, upstreamed (2026-08-24)
+
+The Wave -1 adversarial ideation gate was authored in this session and applied to **both** repos. It
+landed upstream as `4a658d5`, so this vendored tree and upstream agree again — no divergence
+outstanding.
+
+Files added or changed between `ff074c9` and `4a658d5`:
+
+| File | Change |
+|---|---|
+| `dispatch-templates/clause-11-adversarial-ideation.md` | new — the clause |
+| `templates/ideation-brief.md` | new — the gate artifact template |
+| `scripts/check-ideation-gate.sh` | new — the enforcement gate |
+| `agents/orchestrator.md` | §Wave -1 section, Wave 0 step 0, clause list, session-start ritual |
+| `dispatch-templates/README.md` | clause table row + application-surface note |
+| `scripts/README.md` | enforcement-scripts section |
+| `README.md` | wave cadence, what's-in-the-box, key sub-documents |
+| `CLAUDE.md.snippet` | Wave -1 section |
+| `scripts/session-start.sh` | Wave -1 line in the printed checklist (applied by hand here — this
+file carries a local patch and is never overwritten by a copy) |
+
+`scripts/check-ideation-gate.sh` was written with git-toplevel root resolution from the start, so
+unlike the three older scripts it needs **no local patch** and can be overwritten freely.
+
 ## Known upstream inconsistency (not patched)
 
 `templates/wave-state.md` writes its state heading as
@@ -103,7 +128,7 @@ once each and are easy to miss.
 ## Updating from upstream
 
 ```bash
-cd ~/Projects/agentwaves && git fetch origin && git log --oneline ff074c9..origin/main
+cd ~/Projects/agentwaves && git fetch origin && git log --oneline 4a658d5..origin/main
 # Review the diff, then re-copy and re-apply the local patch:
 rsync -a --exclude='.git/' --exclude='.DS_Store' --exclude='.github/' \
       ~/Projects/agentwaves/ .orchestrator/

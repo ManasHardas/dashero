@@ -9,6 +9,7 @@ agentwaves answers a different question from most Claude Code skill collections:
 ## The wave cadence
 
 ```
+Wave -1   — Adversarial ideation         (greenfield only — once per project)
 Wave 0    — Contract Freeze              (orchestrator alone)
 Wave 0.5  — Issue Planning               (Backend + Frontend + Infra in parallel)
 Wave 1    — Build (loop)                 (specialist agents per filed issue)
@@ -18,6 +19,8 @@ Wave 3.5  — Dogfood pass                 (real-data end-to-end exercise)
 ```
 
 Wave 0 + Wave 0.5 produce the **filed-issue ready-set** that drives Wave 1 build dispatch. The orchestrator never synthesizes dispatch briefs from memory; every Wave 1 dispatch references a filed GitHub issue. This is the discipline-failure mode the framework most aggressively defends against.
+
+Wave -1 runs once, on greenfield projects only, and hard-gates Wave 0. Everything from Wave 0 onward optimizes for building the *specified* thing correctly — nothing downstream asks whether it is worth building, which makes a well-run protocol perfectly capable of shipping the wrong product for eight phases. See [Clause #11](dispatch-templates/clause-11-adversarial-ideation.md).
 
 Full operating manual: [`agents/orchestrator.md`](agents/orchestrator.md).
 
@@ -29,12 +32,13 @@ Full operating manual: [`agents/orchestrator.md`](agents/orchestrator.md).
 |---|---|
 | [`agents/`](agents/) | 11 specialist role docs: orchestrator, PM, PM-Designer, Code Review, Security, SRE, Backend, Frontend, Infra, QA, Docs |
 | [`dispatch-templates/`](dispatch-templates/README.md) | Permanent + conditional dispatch-brief clauses (test-file-in-initial-commit, reviewer-trio composition, verification environment, close-keyword convention, CI-quota-constrained mode) |
-| [`templates/`](templates/) | Starter files for `wave-state.md`, `capacity-log.md`, `velocity.json`, `phase-spec.md`, `next-session.md` (SHD), `runbook.md` |
-| [`scripts/`](scripts/README.md) | Session-start checklist printer, session-close checklist printer, and the session-close guardrails enforcement script (17 invariants) |
+| [`templates/`](templates/) | Starter files for `wave-state.md`, `capacity-log.md`, `velocity.json`, `phase-spec.md`, `next-session.md` (SHD), `runbook.md`, `ideation-brief.md` |
+| [`scripts/`](scripts/README.md) | Session-start checklist printer, session-close checklist printer, the session-close guardrails enforcement script (17 invariants), and the Wave -1 ideation gate |
 | [`CLAUDE.md.snippet`](CLAUDE.md.snippet) | Paste into your project's `CLAUDE.md` to auto-load operating-mode rules into every conversation |
 
 ### Key sub-documents
 
+- [Clause #11 — Adversarial ideation gate](dispatch-templates/clause-11-adversarial-ideation.md) — Wave -1; ask before assuming, research before assuming, show data don't tell, argue both sides, name kill criteria. Hard-gates Wave 0 on greenfield projects
 - [Session Handoff Document protocol](agents/pm.md#session-handoff-document-shd-protocol--plansnext-sessionmd) — cross-session memory in one file; ~65-95k saved per session-start
 - [Operating modes: ACTIVE vs DEGRADED](agents/orchestrator.md#session-start-ritual-permanent-clause) — when full PM discipline is required vs. when PM-skip is safe
 - [Coordination watchdogs T-M / T-X / T-Y](agents/pm.md#coordination-watchdogs-t-m--t-x--t-y) — module-drift / parallel-lane-overlap / post-merge-issue-closure

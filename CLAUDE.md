@@ -36,6 +36,22 @@ Catches the silent execution drift from non-negotiable spec invariants that is i
 
 **Local note:** `plans/wave-state.md` must carry a `(post-S<N>)` marker in its `## Current state` heading — check #2 auto-detects the session number from it. The upstream template writes `(session N status)`, which the guardrail does not match.
 
+## Wave -1 — adversarial ideation gate (PERMANENT, greenfield only)
+
+dashero has not run this yet, and **Wave 0 cannot begin until it has.**
+
+The ideation session that decides what dashero is runs under Clause #11 (`.orchestrator/dispatch-templates/clause-11-adversarial-ideation.md`) and is **extremely critical by default**. Five rules:
+
+1. **Never assume without asking.** Every input you lack, ask for. Every surviving assumption is labelled `ASKED` (quote the answer), `RESEARCHED` (cite the source), or `UNVERIFIED` (attach a falsifiable kill-criterion). No fourth category, no "self-evident" exemption. Ask in batches, and ask more than feels polite.
+2. **Research before assuming.** Ordering is mandatory: research → ask → assume. Read primary sources — the actual pricing page, API docs, terms, filing — not a summary of them.
+3. **Show data, don't tell.** Every material claim carries a citation or a number with a link, a date, and a method. Unsourced market sizing and unsourced demand claims are rejected outright. "No public data found" is a legitimate and valuable finding; an invented estimate to fill the gap is the failure this rule exists to prevent.
+4. **Be extremely critical first, then argue the other side with equal rigor.** Minimum five *specific* failure modes across at least four categories (demand / distribution / technical / economic / competitive / dependency-regulatory / operator), each with a concrete mechanism and a leading indicator — generic risk-listing does not count. Then minimum three evidenced reasons it works, written after the critique and engaging with it.
+5. **Falsifiable kill criteria, then a verdict.** Observable thresholds named in advance, while stopping is cheap. Close with `GO` / `NO-GO` / `RESHAPE` and the strongest argument against your own verdict.
+
+Findings go in `plans/ideation-<slug>.md`, seeded from `.orchestrator/templates/ideation-brief.md`. Red-team and research agents are dispatched in parallel per the clause's §Dispatch shape, with the clause body pasted verbatim into each brief. **`.orchestrator/scripts/check-ideation-gate.sh` must exit 0 before Wave 0.** No bypass.
+
+**What the gate does not do:** every check is structural. It confirms the reasoning was done, not that it was good — a brief can satisfy all nine checks and contain no genuine thought. A green gate is not validation, and treating it as such is the misuse it is most vulnerable to.
+
 ## Dispatch system — agentwaves only (PERMANENT)
 
 **All subagent dispatch in this repo goes through the agentwaves wave protocol. No exceptions.**

@@ -63,6 +63,9 @@ cat <<'EOF'
 3. Cross-reference required activities for current phase+wave from
    agents/orchestrator.md §Wave sequence:
 
+   - Wave -1: (GREENFIELD ONLY, once per project) adversarial ideation
+              per Clause #11. Wave 0 is BLOCKED until
+              scripts/check-ideation-gate.sh exits 0.
    - Wave 0: orchestrator-only contract freeze + PM-D phase-sanity-check
              + tracking issue creation
    - Wave 0.5: 3 parallel build-agent dispatches (BE + FE + Infra)

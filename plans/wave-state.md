@@ -12,7 +12,7 @@
 
 **Phase:** none yet — pre-P1. No phase spec written.
 
-**Wave:** none. Next wave to run is **Wave 0** of P1, which cannot start until a phase spec exists.
+**Wave:** none. Next wave to run is **Wave -1 — adversarial ideation** (greenfield, once per project). Wave 0 is hard-gated behind it: `.orchestrator/scripts/check-ideation-gate.sh` must exit 0 first. See Clause #11.
 
 **Last session:** S0 was framework setup only (vendored agentwaves at `.orchestrator/`, seeded `plans/`, wrote `CLAUDE.md`). No commits on `main` yet at file-write time.
 
@@ -24,11 +24,12 @@
 - No `plans/feature-p1-<slug>.md` phase spec.
 
 **Next required activities (in order):**
-1. ⏳ Decide what dashero is and what P1 ships — product plan + user flows. (Pre-Wave-0 ideation; `superpowers:brainstorming` is the sanctioned tool here per `.orchestrator/agents/orchestrator.md` §Meta-skill conflict carve-out.)
-2. ⏳ Decide the stack, then fill the placeholders in `.orchestrator/agents/*.md`.
-3. ⏳ Write `plans/feature-p1-<slug>.md` from `.orchestrator/templates/phase-spec.md`.
-4. ⏳ Wave 0 — contract freeze (orchestrator alone) + PM-Designer phase-sanity-check + `[P1] Phase tracking` issue.
-5. ⏳ Wave 0.5 — parallel Backend + Frontend + Infra issue decomposition.
+1. ⏳ **Wave -1 — adversarial ideation** under Clause #11. Dispatch Research + Red-team A/B/C in parallel, put the open questions to the operator, then dispatch the steel-man. Synthesize into `plans/ideation-dashero.md` from `.orchestrator/templates/ideation-brief.md`. Decides what dashero is, and whether it should exist.
+2. ⏳ Run `.orchestrator/scripts/check-ideation-gate.sh` until exit 0. **Wave 0 is blocked until then.** A `NO-GO` verdict opens the gate but means Wave 0 does not start.
+3. ⏳ Take the stack decision from the brief's §Handoff to Wave 0, then fill the placeholders in `.orchestrator/agents/*.md` (inventory in `.orchestrator/VENDOR.md`).
+4. ⏳ Write `plans/feature-p1-<slug>.md` from `.orchestrator/templates/phase-spec.md`, seeded from the brief's §Handoff.
+5. ⏳ Wave 0 — contract freeze (orchestrator alone) + PM-Designer phase-sanity-check + `[P1] Phase tracking` issue.
+6. ⏳ Wave 0.5 — parallel Backend + Frontend + Infra issue decomposition.
 
 **Operating mode:** **ACTIVE** — required. New phase boundary, new contract surfaces, first-of-class everything, and no filed issues exist. DEGRADED is unreachable on this project until at least one phase has shipped.
 

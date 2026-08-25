@@ -26,6 +26,7 @@ You do not:
 ## The wave sequence, per phase
 
 ```
+Wave -1   — Adversarial ideation  (greenfield only — once per project, before P1)
 Wave 0    — Contract Freeze
 Wave 0.5  — Issue Planning
 Wave 1    — Build (loop)
@@ -34,8 +35,47 @@ Wave 3    — Phase close
 Wave 3.5  — Dogfood pass (recommended for user-visible phases)
 ```
 
+### Wave -1 — Adversarial ideation (greenfield only, once per project)
+
+Runs **once**, on a new project, before P1 has a phase spec. Existing projects never run it again —
+phase-boundary ideation keeps the lighter PM/Designer sanity-check at Wave 0 step 2.
+
+Everything downstream of Wave 0 optimizes for building the specified thing correctly. Nothing
+downstream asks whether it is worth building. This is the only wave that does, and the only point
+where that error is cheap.
+
+**Governed by `dispatch-templates/clause-11-adversarial-ideation.md` — five rules:** never assume
+without asking; research before assuming; show data, don't tell; argue both sides with symmetric
+rigor (≥5 specific failure modes across ≥4 categories, then ≥3 evidenced reasons it works); name
+falsifiable kill criteria and a verdict.
+
+**Procedure:**
+
+1. **Dispatch the red-team + research set in parallel** (single message, multiple `Agent` tool_use
+   blocks) per the clause's §Dispatch shape: Research, Red-team A (demand + distribution), Red-team B
+   (technical + dependency/regulatory), Red-team C (economic + competitive + operator). Paste the
+   clause body verbatim into each brief.
+2. **Put the open questions to the operator.** Batch them, ask more than feels polite, and quote the
+   answers. Do not proceed past an unanswered question by picking the convenient reading.
+3. **Dispatch the steel-man** once the red teams return — it must engage their findings, not ignore
+   them.
+4. **Synthesize into `plans/ideation-<slug>.md`** from `templates/ideation-brief.md`.
+5. **Run `scripts/check-ideation-gate.sh`.** Exit 0 opens the gate. Exit 1 is a BLOCKER — Wave 0 must
+   not begin. Exit 2 means acknowledge each warning in the Wave 0 PR body.
+6. **Carry the verdict's §Handoff to Wave 0 into the phase spec** — it supplies P1 scope, deliberate
+   out-of-scope, and the stack decision that unblocks the `agents/*.md` placeholder fill.
+
+**HARD GATE — no bypass.** Wave 0 contract freeze must not begin while the gate is red. Same policy
+as the session-close guardrails: if a check is wrong, file an issue against the script; don't skip it.
+
+**A red team that returns nothing is a signal to re-dispatch with a sharper brief, not a clean bill
+of health.**
+
 ### Wave 0 — Contract Freeze (sequential, you alone)
 
+0. **Greenfield only — confirm the Wave -1 ideation gate is open.** Run
+   `scripts/check-ideation-gate.sh`. If it exits 1, stop: Wave 0 does not begin. Skip this step
+   entirely on an existing project (the gate runs once per project, not once per phase).
 1. Read the phase spec.
 2. **Dispatch PM/Designer for a phase-spec sanity check** — they compare the spec against the product plan, user flows, and design references. Address any blockers by amending the phase spec before proceeding.
 3. Write the API spec (e.g., OpenAPI YAML). Validate via your spec linter.
@@ -167,6 +207,7 @@ These are PERMANENT clauses; do not omit them on any build-agent dispatch. They 
 **Orchestrator-side clauses (govern dispatch shape, not the per-agent brief):**
 
 - **Clause #10 — Throughput maximization** (`dispatch-templates/clause-10-throughput-maximization.md`) — three throughput levers (parallel build dispatches + Wave-boundary compression + sibling-shape bundling) applied by default once class anchors stabilize at n≥3. NOT pasted into build-agent dispatch briefs; consulted by the orchestrator at dispatch-decision time.
+- **Clause #11 — Adversarial ideation gate** (`dispatch-templates/clause-11-adversarial-ideation.md`) — greenfield only, once per project. Governs Wave -1 and hard-gates Wave 0 via `scripts/check-ideation-gate.sh`. Its *body* IS pasted verbatim into the Wave -1 red-team / research / steel-man dispatch briefs; its dispatch-shape and gate rules govern the orchestrator.
 
 **Conditional clauses (env-var-gated):**
 
@@ -229,6 +270,7 @@ Before any planning or dispatch in any session, the orchestrator MUST execute th
 1. **Fetch + reset worktree to origin/main.** Verify clean status.
 2. **Read `plans/next-session.md` FIRST** (Session Handoff Document — pre-rendered playbook by PM at prior session-close per SHD protocol; see `agents/pm.md` §Session Handoff Document protocol). Contains: pre-rendered slot 1 dispatch brief, compressed priors digest, watchdog framing, stop conditions. If `next-session.md` is missing OR the "Generated:" stamp is older than the latest merged PR, fall back to **`plans/wave-state.md`** (authoritative state) + run the legacy session-start ritual (PM dispatch at session-start). The SHD protocol typically saves 65-95k of session-start overhead by eliminating PM-dispatch-at-session-start.
 3. **Cross-reference required activities for current phase+wave** from §Wave sequence above. Specifically check:
+   - Wave -1: (greenfield only, once per project) adversarial ideation + `check-ideation-gate.sh` green before Wave 0
    - Wave 0: orchestrator-only contract freeze + PM-Designer phase-sanity-check + tracking issue creation
    - Wave 0.5: 3 parallel build-agent dispatches for issue decomposition (Backend + Frontend + Infra)
    - Wave 1: build loop dispatching per filed issue

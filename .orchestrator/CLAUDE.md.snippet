@@ -27,6 +27,14 @@ ACTIVE mode is REQUIRED if ANY of the above conditions fails. ACTIVE mode requir
 
 Catches the silent execution drift from non-negotiable spec invariants that is invisible during normal development — agents follow stale memory; the spec keeps living in the doc unaltered until someone runs a retrospective and notices the gap. **No bypass** — file an issue against the script if a check is wrong; do not skip the gate. See `.orchestrator/agents/orchestrator.md` §Session-close ritual + `.orchestrator/agents/pm.md` §Session close step 5.
 
+## Wave -1 — adversarial ideation gate (greenfield only, once per project)
+
+On a **new** project, the brainstorming/ideation session that decides what to build is governed by Clause #11 (`.orchestrator/dispatch-templates/clause-11-adversarial-ideation.md`) and is **extremely critical by default**. Five rules: never assume without asking (every assumption is `ASKED` / `RESEARCHED` / `UNVERIFIED`-with-a-kill-criterion, no fourth category); research before assuming; show data, don't tell (no unsourced market sizing or demand claims — "no public data found" is a legitimate finding, an invented estimate is not); argue both sides with symmetric rigor (≥5 specific failure modes with mechanisms and leading indicators across ≥4 categories, then ≥3 evidenced reasons it works); name falsifiable kill criteria and close with a verdict plus the strongest argument against it.
+
+Findings go in `plans/ideation-<slug>.md` (from `.orchestrator/templates/ideation-brief.md`). **`.orchestrator/scripts/check-ideation-gate.sh` must exit 0 before Wave 0 contract freeze begins.** No bypass. Skip entirely on an existing project — phase-boundary ideation keeps the lighter PM/Designer sanity-check.
+
+The gate's checks are structural: they confirm the reasoning was *done*, not that it was *good*. A green gate is not validation.
+
 ## Skill-output gitignore recommendations (conditional)
 
 If your harness ships the `superpowers:brainstorming` skill (or similar skills that run a localhost preview server), the skill writes a transient output cache to `.superpowers/brainstorm/<session-id>/` containing HTML preview files plus a `state/` directory with server PIDs and logs. This is ephemeral per-session data — add to your `.gitignore`:
