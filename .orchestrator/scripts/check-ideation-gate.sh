@@ -204,8 +204,12 @@ check_verdict() {
   body=$(section "Verdict")
   verdict=$(grep -oE '\b(GO|NO-GO|RESHAPE)\b' <<<"$body" | head -1 || true)
   # Substance test: the text after the label, minus any <placeholder>, must be real prose.
+  # NB: the `|| true` is load-bearing. Without it, a brief with no `## Verdict` section at all
+  # makes grep exit 1, and `set -euo pipefail` kills the script mid-run — so checks 8 and 9
+  # silently never print. A missing section must FAIL loudly, not abort the gate.
   counter=$(grep -E 'Strongest argument against' <<<"$body" \
-            | sed 's/.*://; s/<[^>]*>//g' | tr -d '[:space:]' | wc -c | tr -d ' ')
+            | sed 's/.*://; s/<[^>]*>//g' | tr -d '[:space:]' | wc -c | tr -d ' ' || true)
+  [[ -n "$counter" ]] || counter=0
   if [[ -z "$verdict" ]]; then
     fail "8. verdict — no GO / NO-GO / RESHAPE decision recorded"
   elif [[ "$counter" -lt 40 ]]; then
@@ -221,6 +225,30 @@ check_verdict() {
   fi
 }
 
+# 9. Alternatives — >=4 ALT- rows (3 candidates + the specification), each with a distribution
+#    answer. Clause #11 Rule 6: a session that never scored an alternative did half the job.
+check_alternatives() {
+  local body rows spec dist
+  body=$(section "Alternatives considered")
+  rows=$(count '^\| *ALT-[0-9]+' "$body")
+  # ALT-0 is reserved for the specification itself, scored on identical terms.
+  spec=$(count '^\| *ALT-0' "$body")
+  # Every row must name a channel or explicitly admit it has none.
+  dist=$(grep -E '^\| *ALT-[0-9]+' <<<"$body" | grep -ciE 'none|channel|market|outreach|search|community|directory|referral|listing|partner|content' || true)
+  if [[ "$rows" -lt 4 ]]; then
+    fail "9. alternatives — only ${rows} scored (minimum 4: the specification plus 3 candidates; Clause #11 Rule 6)"
+    detail "a verdict reached without scoring an alternative is a preference, not a decision"
+  elif [[ "$spec" -lt 1 ]]; then
+    fail "9. alternatives — ${rows} scored but ALT-0 (the specification itself) is missing"
+    detail "scoring the incumbent on identical terms is what stops 'different' meaning 'better'"
+  elif [[ "$dist" -lt "$rows" ]]; then
+    fail "9. alternatives — ${rows} scored but only ${dist} state a distribution answer"
+    detail "a candidate with no channel must say so; distribution is where these die"
+  else
+    ok "9. alternatives — ${rows} scored including the specification, all with a distribution answer"
+  fi
+}
+
 check_placeholders
 check_questions
 check_assumptions
@@ -229,13 +257,14 @@ check_case_against
 check_case_for
 check_kill_criteria
 check_verdict
+check_alternatives
 
-# 9. Handoff — stack decision present (WARN: needed to fill agents/*.md placeholders)
+# 10. Handoff — stack decision present (WARN: needed to fill agents/*.md placeholders)
 printf "\n%sWARN checks%s\n" "$C_BOLD" "$C_RST"
 if section "Handoff to Wave 0" | grep -qiE 'stack decision'; then
-  ok "9. handoff — stack decision recorded"
+  ok "10. handoff — stack decision recorded"
 else
-  warn "9. handoff — no stack decision; agents/*.md placeholders stay unfilled"
+  warn "10. handoff — no stack decision; agents/*.md placeholders stay unfilled"
 fi
 
 # ---------- result ----------

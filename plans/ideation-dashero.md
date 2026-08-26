@@ -633,6 +633,60 @@ Consolidated from all five agent returns, deduplicated, each falsifiable and dat
 
 ---
 
+## Alternatives considered
+
+Clause #11 Rule 6, added by Amendment 1 on 2026-08-26 — an amendment this session's own findings
+produced. Scored by the Pivot Architect across two passes, the second after revealed-preference and
+unserved-need data arrived from sibling agents.
+
+| # | Candidate | Buyer (specifically) | Job it does | Build (weeks) | Distribution answer | Score | Verdict |
+|---|---|---|---|---|---|---|---|
+| ALT-0 | **dashero exactly as reshaped** (the specification) | Unnamed. A description, not a list — someone on a low Google tier who publishes numbers weekly | Turn my sheet into a shareable dashboard I do not have to fix | 15-17 | **None.** Modelled at roughly 4 paying customers across every enumerated channel | **8** | **Last of eight. Fails all three weighted criteria.** |
+| ALT-1 | Per-recipient fan-out over one Sheet, scoped | Producers-for-hire serving many clients — top decile of 300+ named, messageable PeoplePerHour profiles by completed-job count | One report definition, N branded per-recipient links, each showing only their slice | 6-7 | Cold outreach to a named, countable list, contactable this week | **22** | Recommended, but weakened after the KC-15 check — see below |
+| ALT-2 | Service-funded add-on | Solo bookkeepers and fractional CFOs with 5-20 clients | Done-for-you monthly reports now, product later, funded by the service | 5 + service | Cold outreach from week 1, then a warm Marketplace listing | 20 | Fails its own revenue gate once the labour anchor is applied |
+| ALT-3 | Pure done-for-you report service | Same buyer as ALT-2 | Someone competent makes my monthly numbers presentable | 0 | Cold outreach to a public directory from week 1 | 19 | Fails gate. It is a job, not an asset. Bridge only |
+| ALT-4 | Open-source commandments library | Developers generating charts programmatically | Stop my generated charts being wrong, and make them title themselves | 3-5 | Show HN, npm, the Vega community — attention, not revenue | 19 | Scores well, earns nothing. Kept as a calibration check that the rubric is not a ranking function |
+| ALT-5 | Single-chart Sheets add-on | Anyone selecting a range who needs one chart for a deck or email | Make the one chart I am about to paste somewhere actually say something | 5.5 | Marketplace search rank only — passive, cold start, no one is contactable | 17 | Best 18-month asset in the table; loses only on the clock |
+| ALT-6 | Bookkeeper client-report product | Solo bookkeeper or fractional CFO | Produce the branded monthly client report on time | 10-14 | Accountant directory outreach, but arrives after the product ships in December | 16 | Right buyer, build size reproduces exactly the failure that killed ALT-0 |
+| ALT-7 | Print-quality board-pack PDF | Nonprofit ops manager, association secretary, school district | The quarterly board pack that must look like a document | 8-12 | Nonprofit registry outreach; quarterly cycle misses the clock entirely | 14 | Dead — an incumbent is closing this gap this month |
+
+**Scoring criteria used:** buildable solo in under 8 weeks; has a reachable buyer contactable this
+month; plausibly reaches $1,000 MRR by 2026-12-25 and by what arithmetic; survives the obvious
+incumbent response; fits a $20/month inference budget; reuses the assets this session already paid
+for; requires no designer. **Reachable-buyer and revenue arithmetic were double-weighted**, because
+distribution was established as the binding constraint and the operator's own stop-rule is a revenue
+number. Revenue was additionally treated as a pass/fail gate rather than a score, given the stated
+goal of making money immediately — which is what eliminated ALT-2 through ALT-7 regardless of their
+totals.
+
+**Why the winner beats the specification (or does not):** ALT-1 beats ALT-0 on the only two criteria
+that were ever binding. Its buyer is a named list rather than a description, and its build fits the
+window with selling time left over. The asymmetry that decided it: the service candidates competed
+against a market anchor *below* their price, while ALT-1 appeared to compete against one far above
+it. **That advantage has since narrowed and the brief should not pretend otherwise.** The KC-15 check
+run on 2026-08-26 found AgencyAnalytics already supports Google Sheets as a data source with
+per-client white-labelled reports, and DashThis already advertises flat-rate pricing that is not
+per-client at $429/month for 50 dashboards. The price wedge is therefore roughly 4x, not the 16x the
+scoring assumed. ALT-1 remains ranked first, but its margin over ALT-2 is now thin enough that KC-14
+decides it rather than the rubric. For ALT-0 to have won, the SMB-with-one-recurring-report buyer
+would have had to be findable — and a targeted search established the opposite.
+
+**Evidence that each alternative is not already served:** ALT-1 — partially served; AgencyAnalytics
+does this at $20/client and DashThis at $429 flat for 50 dashboards (E-53, E-54, and the KC-15 check
+of 2026-08-26), so the claim is price and simplicity, not absence. ALT-2 and ALT-6 — the
+spreadsheet-native slot below Fathom's AUD$59 and Reach Reporting's $149 appears open, but "open
+below the price floor" and "worth paying for" are different claims and only the first is evidenced.
+ALT-4 — the 18 commandments as executable rules with hard render gates does not exist as a library;
+Vega-Lite is the substrate, not a competitor (E-14). ALT-5 — the aesthetics-only in-Sheets position
+is proven to monetise (E-41, E-42), but an add-on shipping approximately the auto-insight concept
+shows 24 installs (E-64), so a listing is not distribution. ALT-7 — Datawrapper paywalls PDF export
+and Reach Reporting serves nonprofits at $149 (E-59), leaving the print-quality slot below both real,
+but an incumbent is closing it this month (E-60). ALT-3 — **not established.** Freelance
+data-visualisation pricing could not be reached; Fiverr and Upwork both returned HTTP 403 and the
+session's search budget was exhausted, so ALT-3's price is unanchored against its own market.
+
+---
+
 ## Verdict
 
 **Decision:** `RESHAPE` — and after the generative dispatch, the reshape is product-level rather

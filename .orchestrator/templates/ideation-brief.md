@@ -108,6 +108,32 @@ cheap. Every `UNVERIFIED` assumption maps to at least one.
 
 ---
 
+## Alternatives considered
+
+Clause #11 Rule 6. Minimum **three** genuinely distinct alternatives — a different buyer or a
+different job, not the same product with a feature toggled — **plus the specification itself, scored
+on identical terms.** Score against the operator's real constraints, not an idealised founder's.
+
+Rule 3 binds an alternative as hard as it binds the specification. An unsourced "this space looks
+empty" is a gate failure.
+
+| # | Candidate | Buyer (specifically) | Job it does | Build (weeks) | Distribution answer | Score | Verdict |
+|---|---|---|---|---|---|---|---|
+| ALT-0 | <the specification, unchanged> | <who> | <what> | <n> | <channel, or "none — say so"> | <n> | <one line> |
+| ALT-1 | <candidate> | <who> | <what> | <n> | <channel, or "none"> | <n> | <one line> |
+| ALT-2 | <candidate> | <who> | <what> | <n> | <channel, or "none"> | <n> | <one line> |
+| ALT-3 | <candidate> | <who> | <what> | <n> | <channel, or "none"> | <n> | <one line> |
+
+**Scoring criteria used:** <state them, and state which were weighted and why>
+
+**Why the winner beats the specification (or does not):** <2-4 sentences. If the specification ranked
+first, say what would have had to be true for it to lose.>
+
+**Evidence that each alternative is not already served:** <E-n per candidate, or an explicit "not
+established — searched <queries>, found nothing" per Rule 3>
+
+---
+
 ## Verdict
 
 **Decision:** `GO` | `NO-GO` | `RESHAPE`

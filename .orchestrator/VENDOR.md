@@ -3,7 +3,8 @@
 | | |
 |---|---|
 | **Upstream** | `git@github.com-personal:manashardas/agentwaves.git` |
-| **Vendored at commit** | `8a42eb3` (`fix(scripts): resolve project root from script location`) |
+| **Vendored at commit** | `7b73bf8` (`feat(protocol): clause #11 rule 6 — search the space, not only the specification`) |
+| **Previously vendored at** | `8a42eb3` (`fix(scripts): resolve project root from script location`) |
 | **Originally vendored at** | `ff074c955d25d87a6a83e21c5f7ff5dfc8eafeef` (`clause #10 — throughput maximization`) |
 | **Vendored on** | 2026-08-24 |
 | **Method** | file copy (not a submodule) |

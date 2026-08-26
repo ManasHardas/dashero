@@ -38,7 +38,7 @@ Full operating manual: [`agents/orchestrator.md`](agents/orchestrator.md).
 
 ### Key sub-documents
 
-- [Clause #11 — Adversarial ideation gate](dispatch-templates/clause-11-adversarial-ideation.md) — Wave -1; ask before assuming, research before assuming, show data don't tell, argue both sides, name kill criteria. Hard-gates Wave 0 on greenfield projects
+- [Clause #11 — Adversarial ideation gate](dispatch-templates/clause-11-adversarial-ideation.md) — Wave -1; ask before assuming, research before assuming, show data don't tell, argue both sides, name kill criteria, and search the space rather than only the specification. Hard-gates Wave 0 on greenfield projects
 - [Session Handoff Document protocol](agents/pm.md#session-handoff-document-shd-protocol--plansnext-sessionmd) — cross-session memory in one file; ~65-95k saved per session-start
 - [Operating modes: ACTIVE vs DEGRADED](agents/orchestrator.md#session-start-ritual-permanent-clause) — when full PM discipline is required vs. when PM-skip is safe
 - [Coordination watchdogs T-M / T-X / T-Y](agents/pm.md#coordination-watchdogs-t-m--t-x--t-y) — module-drift / parallel-lane-overlap / post-merge-issue-closure
