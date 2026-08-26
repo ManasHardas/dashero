@@ -7,6 +7,35 @@ Adapted from `.orchestrator/CLAUDE.md.snippet` with paths rewritten for the `.or
 
 ---
 
+## Write in plain language (PERMANENT)
+
+**Use the simplest words that are still accurate. No jargon.** This applies to everything the
+operator reads — chat messages, plan documents, issue bodies, PR descriptions, commit messages.
+
+Rules:
+
+1. **Never invent or relay a term of art without defining it in ordinary words first.** If a subagent
+   returns "parameterized fan-out," the orchestrator's job is to translate it to "one report, sent to
+   40 different clients, each seeing only their own numbers" — not to pass the phrase through.
+   Relaying an agent's vocabulary unexamined is a failure of synthesis, not a shortcut to it.
+2. **Any product proposal must answer these six questions in plain words, before any analysis:**
+   who is the customer (who pays), who is the user (who sets it up), who is the viewer (who reads the
+   output), what pain does this remove, why would they pay rather than keep coping, and what does
+   using it actually feel like, step by step. A proposal missing these is not a proposal.
+3. **Lead with the thing, then the evidence.** Describe the product or the decision in a short
+   paragraph a stranger would understand. Supporting analysis comes after, and can be skipped.
+4. **Volume is not rigour.** Long messages built from agent output are a way of avoiding the work of
+   deciding what matters. Put detail in the file; put the conclusion in the message.
+5. **Prefer concrete examples to abstractions.** "A marketing agency with 40 clients" beats "a
+   multi-tenant reporting scenario."
+
+**Source:** operator feedback, 2026-08-26, during the Wave -1 ideation session. Five agent reports
+were relayed in near-native vocabulary; the operator could not tell what the recommended product
+was, who would buy it, or what it would feel like to use — because those questions had never been
+answered in plain words. **This rule is permanent.**
+
+---
+
 ## Session operating modes
 
 **Read `plans/next-session.md` FIRST** at any session-start (Session Handoff Document — pre-rendered playbook by PM at prior session-close). Contains pre-rendered slot 1 dispatch brief, compressed priors digest, watchdog framing. If missing OR stale (older than the latest merged PR), fall back to `plans/wave-state.md` (authoritative state) + legacy session-start ritual (PM dispatch). SHD protocol saves 65-95k per session-start. See `.orchestrator/agents/pm.md` §Session Handoff Document protocol for the format.

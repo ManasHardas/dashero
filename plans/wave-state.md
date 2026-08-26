@@ -8,28 +8,34 @@
 
 ---
 
-## Current state — 2026-08-24 (post-S0)
+## Current state — 2026-08-26 (post-S1)
 
-**Phase:** none yet — pre-P1. No phase spec written.
+**Phase:** none yet — pre-P1. No phase spec written. **Wave 0 is deliberately not started.**
 
-**Wave:** none. Next wave to run is **Wave -1 — adversarial ideation** (greenfield, once per project). Wave 0 is hard-gated behind it: `.orchestrator/scripts/check-ideation-gate.sh` must exit 0 first. See Clause #11.
+**Wave:** Wave -1 (adversarial ideation) is **complete**. `check-ideation-gate.sh` exits 0 — 9 ok / 0 warn / 0 fail against `plans/ideation-dashero.md`.
 
-**Last session:** S0 was framework setup only (vendored agentwaves at `.orchestrator/`, seeded `plans/`, wrote `CLAUDE.md`). No commits on `main` yet at file-write time.
+**Verdict:** `RESHAPE`, product-level. dashero as originally specified scored **last of eight** candidate product shapes on a rubric that double-weighted reachable-buyer and revenue arithmetic. The recommended shape is narrower — spreadsheet-native per-recipient reporting for agencies and freelancers — and is **itself gated on a market test, not on a build decision.**
 
-**Carry-over slots:** none.
+**Wave 0 is blocked by KC-14, not by the gate script.** The gate is open; the operator has not confirmed a buyer. No product code is authorised until ≥5 of ~50 contacted producers-for-hire commit to paying, by **2026-09-12**. A one-hour competitive check (KC-15) runs first and can falsify the recommendation outright.
 
-**Open blockers (must resolve before next required activity):**
-- No stack decided. `.orchestrator/agents/*.md` still carry unfilled placeholders (`<api-routes-dir>`, `<services-dir>`, `<frontend-app-dir>`, `<migrations-versions-dir>`, `<models-file>`, `<config-file>`, `<tests-dir>`, `<full-stack-up-command>`, …). Build-agent scope fences are not enforceable until these are filled. See `.orchestrator/VENDOR.md` §Placeholder customization.
-- No product plan / user-flows doc, so PM-Designer has nothing to sanity-check a phase spec against (per `.orchestrator/agents/pm-designer.md` §Phase sanity check).
-- No `plans/feature-p1-<slug>.md` phase spec.
+**Last session:** S1 — Wave -1 ideation. Eight agents dispatched (Research, Red-team A/B/C, Steel-man per Clause #11 §Dispatch shape; then Demand Archaeologist, Gap Scout, Pivot Architect under a generative extension the operator requested). Artifacts: `plans/ideation-dashero.md` (gate artifact), `plans/design-canon-notes.md`, `plans/brainstorm-summary.md` (plain-language writeup), `plans/outreach-draft.md` (the KC-14 test). `CLAUDE.md` gained a permanent plain-language rule after operator feedback.
+
+**Carry-over slots:** none. No build slots were dispatched this session.
+
+**Open blockers (must resolve before Wave 0):**
+- **No confirmed buyer.** KC-14 is the binding gate. Q-26 ("how do the first 40 customers find you") was answered "I don't know yet" and remains unanswered.
+- **KC-15 unrun** — whether DashThis or AgencyAnalytics already deliver flat-rate per-client fan-out with branding. AgencyAnalytics is confirmed to support Google Sheets as a source, which already narrows the wedge from ~16x to ~4x.
+- **The name must change.** `DASHERO` is a registered EUIPO word mark (018457439, Dashero S.L.) in class 42 across 29 territories; `dashero.com` is owned and parked for sale. KC-12.
+- **KC-1 and KC-9 unresolved** — whether a `drive.file` grant survives unattended server-side re-reads, and whether snapshot persistence is permitted under Google APIs ToS §5.e. Both were deleted by the add-on shape and reintroduced by the fan-out shape.
+- Stack placeholders in `.orchestrator/agents/*.md` remain unfilled. A stack decision is recorded in the brief's §Handoff but is contingent on KC-14 clearing.
 
 **Next required activities (in order):**
-1. ⏳ **Wave -1 — adversarial ideation** under Clause #11. Dispatch Research + Red-team A/B/C in parallel, put the open questions to the operator, then dispatch the steel-man. Synthesize into `plans/ideation-dashero.md` from `.orchestrator/templates/ideation-brief.md`. Decides what dashero is, and whether it should exist.
-2. ⏳ Run `.orchestrator/scripts/check-ideation-gate.sh` until exit 0. **Wave 0 is blocked until then.** A `NO-GO` verdict opens the gate but means Wave 0 does not start.
-3. ⏳ Take the stack decision from the brief's §Handoff to Wave 0, then fill the placeholders in `.orchestrator/agents/*.md` (inventory in `.orchestrator/VENDOR.md`).
-4. ⏳ Write `plans/feature-p1-<slug>.md` from `.orchestrator/templates/phase-spec.md`, seeded from the brief's §Handoff.
-5. ⏳ Wave 0 — contract freeze (orchestrator alone) + PM-Designer phase-sanity-check + `[P1] Phase tracking` issue.
-6. ⏳ Wave 0.5 — parallel Backend + Frontend + Infra issue decomposition.
+1. ⏳ **KC-15** — one hour. Falsifies the recommendation if an incumbent under $100/mo already sells branded per-recipient fan-out.
+2. ⏳ **KC-14** — the outreach test in `plans/outreach-draft.md`. ~50 contacts, ≥5 committing to pay by 2026-09-12. **No code before this clears.**
+3. ⏳ **KC-12** — settle the name and domain before any branding spend.
+4. ⏳ **KC-1** — one-day `drive.file` persistence spike (only if KC-14 clears).
+5. ⏳ If KC-14 clears: write `plans/feature-p1-<slug>.md` from `.orchestrator/templates/phase-spec.md`, fill the agent placeholders, then Wave 0 contract freeze.
+6. ⏳ If KC-14 fails: record NO-GO in the brief's verdict section with the operator's reasoning, per Clause #11 §Doesn't apply to.
 
 **Operating mode:** **ACTIVE** — required. New phase boundary, new contract surfaces, first-of-class everything, and no filed issues exist. DEGRADED is unreachable on this project until at least one phase has shipped.
 
@@ -42,6 +48,7 @@
 | Session | Phase / Wave | Mode | PRs | Notes |
 |---|---|---|---|---|
 | S0 | — / setup | n/a | 0 | Vendored agentwaves @ `ff074c9` as `.orchestrator/`; seeded `plans/`; wrote `CLAUDE.md`. No product work. |
+| S1 | — / Wave -1 | ACTIVE | 0 | Adversarial ideation under Clause #11. 8 agents. Gate exit 0. Verdict RESHAPE (product-level); original spec ranked last of 8. Wave 0 held behind KC-14 market test. Clause #11 §Dispatch shape found to lack a generative lens — amendment pending operator decision. |
 
 ---
 
